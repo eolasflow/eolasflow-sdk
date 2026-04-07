@@ -19,10 +19,12 @@ from .exceptions import (
     NotFoundError,
     ValidationError,
 )
+from .webhook_utils import verify_signature
 
 __version__ = "0.1.0"
 __all__ = [
     "EolasFlow",
+    "verify_signature",
     "Call",
     "CallTranscript",
     "CallAnalysis",
