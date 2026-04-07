@@ -37,8 +37,10 @@ class HttpClient:
 
     def _handle_response(self, response: httpx.Response) -> Any:
         """Parse response and raise appropriate exceptions."""
-        if response.status_code == 200 or response.status_code == 201:
+        if response.status_code in (200, 201):
             return response.json()
+        if response.status_code == 204:
+            return {"success": True}
 
         # Try to get error detail from response body
         try:
@@ -108,8 +110,10 @@ class AsyncHttpClient:
         )
 
     def _handle_response(self, response: httpx.Response) -> Any:
-        if response.status_code == 200 or response.status_code == 201:
+        if response.status_code in (200, 201):
             return response.json()
+        if response.status_code == 204:
+            return {"success": True}
 
         try:
             body = response.json()

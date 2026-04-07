@@ -66,7 +66,7 @@ class Contacts:
             params["search"] = search
 
         data = self._http.get("/customers", params=params)
-        customers = data.get("customers", [])
+        customers = data.get("items", data.get("customers", []))
         return [Contact(**c) for c in customers]
 
     def update(
