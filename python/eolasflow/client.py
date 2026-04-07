@@ -38,6 +38,14 @@ class EolasFlow:
         self.webhooks = Webhooks(self._http)
         self.phone_numbers = PhoneNumbers(self._http)
 
+    def whoami(self) -> dict:
+        """
+        Get identity info for the current API key.
+
+        Returns user, org, scopes, tier, and rate limits.
+        """
+        return self._http.get("/auth/whoami")
+
     def close(self):
         """Close the HTTP client connection."""
         self._http.close()
