@@ -70,26 +70,32 @@ class Calls:
         if date_to:
             params["date_to"] = date_to
 
-        data = self._http.get("/call-records", params=params)
-        records = data.get("call_records", data.get("records", []))
+        data = self._http.get("/calls", params=params)
+        records = data.get("calls", data.get("call_records", []))
         return [Call(**r) for r in records]
 
     def get(self, call_id: str) -> Call:
         """Get a single call record by ID."""
-        data = self._http.get(f"/call-records/{call_id}")
+        data = self._http.get(f"/calls/{call_id}")
         return Call(**data)
 
     def get_transcript(self, call_id: str) -> CallTranscript:
         """Get the full transcript for a call."""
-        data = self._http.get(f"/call-records/{call_id}/transcript")
-        return CallTranscript(call_id=call_id, **data)
+        data = self._http.get(f"/calls/{call_id}/transcript")
+        if "call_id" not in data:
+            data["call_id"] = call_id
+        return CallTranscript(**data)
 
     def get_analysis(self, call_id: str) -> CallAnalysis:
         """Get the AI analysis for a call."""
-        data = self._http.get(f"/call-records/{call_id}/analysis")
-        return CallAnalysis(call_id=call_id, **data)
+        data = self._http.get(f"/calls/{call_id}/analysis")
+        if "call_id" not in data:
+            data["call_id"] = call_id
+        return CallAnalysis(**data)
 
     def get_recording(self, call_id: str) -> CallRecording:
         """Get the recording URL for a call."""
-        data = self._http.get(f"/call-records/{call_id}/recording")
-        return CallRecording(call_id=call_id, **data)
+        data = self._http.get(f"/calls/{call_id}/recording")
+        if "call_id" not in data:
+            data["call_id"] = call_id
+        return CallRecording(**data)

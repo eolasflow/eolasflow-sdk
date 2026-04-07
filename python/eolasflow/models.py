@@ -25,19 +25,35 @@ class CallTiming(BaseModel):
 class Call(BaseModel):
     id: str
     call_sid: Optional[str] = None
-    direction: str  # "inbound" | "outbound"
-    status: str
+    direction: str = "inbound"
+    status: str = "unknown"
     outcome: Optional[str] = None
     from_number: Optional[str] = None
     to_number: Optional[str] = None
+    duration: Optional[int] = None
     duration_seconds: Optional[int] = None
+    start_time: Optional[str] = None
+    end_time: Optional[str] = None
+    campaign: Optional[Dict[str, Any]] = None
+    contact: Optional[Dict[str, Any]] = None
+    agent: Optional[Dict[str, Any]] = None
+    # Flattened convenience fields
     campaign_id: Optional[str] = None
     campaign_name: Optional[str] = None
     customer_id: Optional[str] = None
     customer_name: Optional[str] = None
-    agent_id: Optional[str] = None
-    agent_name: Optional[str] = None
     created_at: Optional[str] = None
+
+    def model_post_init(self, __context):
+        # Flatten nested campaign/contact into convenience fields
+        if self.campaign and not self.campaign_id:
+            self.campaign_id = self.campaign.get("id")
+            self.campaign_name = self.campaign.get("name")
+        if self.contact and not self.customer_id:
+            self.customer_id = self.contact.get("id")
+            self.customer_name = self.contact.get("name")
+        if self.duration and not self.duration_seconds:
+            self.duration_seconds = self.duration
 
 
 class TranscriptSegment(BaseModel):
