@@ -32,6 +32,7 @@ class HttpClient:
                 "User-Agent": "eolasflow-python/0.1.0",
             },
             timeout=timeout,
+            follow_redirects=True,
         )
 
     def _handle_response(self, response: httpx.Response) -> Any:
@@ -103,6 +104,7 @@ class AsyncHttpClient:
                 "User-Agent": "eolasflow-python/0.1.0",
             },
             timeout=timeout,
+            follow_redirects=True,
         )
 
     def _handle_response(self, response: httpx.Response) -> Any:

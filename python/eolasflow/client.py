@@ -19,7 +19,7 @@ class EolasFlow:
     def __init__(
         self,
         api_key: str,
-        base_url: str = "https://api.eolasflow.ai",
+        base_url: str = "https://gateway.eolasflow.ai",
         timeout: float = 30.0,
     ):
         """
@@ -61,7 +61,7 @@ class AsyncEolasFlow:
     def __init__(
         self,
         api_key: str,
-        base_url: str = "https://api.eolasflow.ai",
+        base_url: str = "https://gateway.eolasflow.ai",
         timeout: float = 30.0,
     ):
         self._http = AsyncHttpClient(api_key=api_key, base_url=base_url, timeout=timeout)
